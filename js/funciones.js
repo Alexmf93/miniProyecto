@@ -75,3 +75,72 @@ export function verificacionPlataforma(videoJuegos, categoria){
     } 
     return contenido
 }
+
+export function mejorCalidad(videoJuegos, puntuacion ){
+    const valorado = videoJuegos.filter(valoracion => valoracion.puntuacion > puntuacion)
+
+    if(valorado){
+        return `Juegos de maxima calidad ${nombre} ${puntuacion} ${precio} `
+    }else{
+        return `No hay juegos con tan alta puntuacion`
+    }
+}
+
+export function busqueda(videoJuegos, id){
+    const buscar = videoJuegos.find(busqueda => busqueda.id === id)
+    const indice = videoJuegos.findIndex(juego => juego.id === id)
+    let contenido2 =""
+    if(buscar){
+        contenido2 += `
+        <div class="card">
+            <div class="card-container">
+            <p>${buscar.nombre} - ${buscar.precio}€ (${buscar.puntuacion}/10) Indice: ${indice+1}</p>
+            </div>
+        </div>
+    `;
+        
+    }
+    return contenido2
+}
+
+export function busquedaTitulo(videoJuegos, nombre){
+    const buscar2 = videoJuegos.find(busqueda => busqueda.nombre.toLowerCase() === nombre.toLowerCase())
+    let contenido2 =""
+    if(buscar2){
+        contenido2 += `
+        <div class="card">
+            <div class="card-container">
+            <p>${buscar2.nombre} - ${buscar2.precio}€ (${buscar2.puntuacion}/10)</p>
+            </div>
+        </div>
+    `;
+    }
+    return contenido2
+}
+
+export function obtenerPropiedades (juego){
+    let propiedades = Object.keys(juego)
+    let html = "<p>"
+    propiedades.forEach(prop => {
+        html += `
+        <span>${prop}</span> 
+        `
+    })
+    html += '</p>'
+    return html
+}
+
+export function conversorEntrada (juego){
+    const entradas = Object.entries(juego)
+
+    let html = ""
+    entradas.forEach(entrada => {
+        html += `<p>${entrada[0]}: ${entrada[1]}</p>`
+    })
+     return html 
+}
+
+export function masEconomicos (videoJuegos){
+    const mejor2 = [...videoJuegos].sort((a,b) => a.precio - b.precio);
+    return mostrarCatalogo(mejor2.slice(0,5))
+}
